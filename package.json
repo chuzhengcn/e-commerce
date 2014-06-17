@@ -1,0 +1,21 @@
+{
+    "name": "feiye-e-commerce",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express"       : "latest",
+        "jade"          : "latest",
+        "moment"        : "latest",
+        "async"         : "latest",
+        "xml2js"        : "latest",
+        "request"       : "latest",
+        "mongoose"      : "latest",
+        "body-parser"   : "latest",
+        "errorhandler"  : "latest",
+        "serve-static"  : "latest",
+        "morgan"        : "latest"
+    }
+}
