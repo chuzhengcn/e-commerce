@@ -39,7 +39,9 @@ app.set('view engine', 'jade');
 var admin_router = require("./routes/admin/index").router;
 
 app.use(morgan("dev"));
+app.use(serveStatic('bower_components'));
 app.use(serveStatic('public'));
+
 app.use("/admin", admin_router);
 
 // parse application/x-www-form-urlencoded
@@ -54,7 +56,7 @@ if (app.get("env") === "development") {
 
 // run --------------------------------------------------------------------------------------------
 app.listen(app.get('port'))
-console.log(app.get("title") + " run success! Listen on " + app.get("port"))
+console.log(app.get("title") + " listen on " + app.get("port"))
 
 
 
@@ -64,16 +66,9 @@ console.log(app.get("title") + " run success! Listen on " + app.get("port"))
 // app.set('views', path.join(__dirname, 'views'));
 // 
 
-// app.use(express.logger('dev'));
 // app.use(express.json());
 // app.use(express.urlencoded());
 // app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/tmp' }))
-// app.use(express.methodOverride());
 // app.use(express.cookieParser('feiyesoft'))
 // app.use(express.cookieSession({key : 'xiaoxiong'}))
-// app.use(app.router);
-
-
-// // routes info
-// init_routes(app)
 

@@ -5,6 +5,5 @@ exports.router = router;
 
 router.route("/")
 .all(function(req, res, next) {
-    console.log(req.query)
-    res.json({err : null})
+    res.render("admin/login")
 })

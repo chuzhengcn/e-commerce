@@ -1,0 +1,23 @@
+{
+    "name": "feiye-e-commerce",
+    "version": "0.0.1",
+    "homepage": "https://github.com/chuzhengcn/e-commerce",
+    "authors": [
+        "chuzheng"
+    ],
+    "description": "feiye-e-commerce-management",
+    "main": "app.js",
+    "moduleType": [
+        "node"
+    ],
+    "keywords": [
+        "e-commerce",
+        "weixin"
+    ],
+    "license": "MIT",
+    "private": true,
+    "dependencies" : {
+        "jquery" : "2.x",
+        "bootstrap" : "3.x"
+    }
+}
