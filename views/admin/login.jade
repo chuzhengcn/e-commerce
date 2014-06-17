@@ -1,4 +1,14 @@
-extends ./layout
-
-append body
-    
+doctype html
+html(ng-app="login") 
+    head
+        include ./includes/head
+    body
+        .container
+            form(role="form", name="signInForm", ng-controller="signInController as signInCtrl", 
+                ng-submit="signInForm.$valid && signInCtrl.signIn", novalidate)
+                h2 登入小熊果园后台
+                input.form-control(type="text", name="name", placeholder="用户名", ng-model="signInCtrl.name", required, autofocus)
+                input.form-control(type="password", name="password", placeholder="密码", ng-model="signInCtrl.password", required)
+                button.btn.btn-lg.btn-primary.btn-block(type="submit") 登录
+        include ./includes/script
+        script(src="/js/admin/login.js")

@@ -41,6 +41,7 @@ var admin_router = require("./routes/admin/index").router;
 app.use(morgan("dev"));
 app.use(serveStatic('bower_components'));
 app.use(serveStatic('public'));
+app.use(serveStatic('pro_ui'));
 
 app.use("/admin", admin_router);
 
