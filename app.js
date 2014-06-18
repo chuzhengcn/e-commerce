@@ -29,7 +29,8 @@ mongoose.connection.on('disconnected', function () {
     connect()
 })
 
-// app setting-------------------------------------------------------------------------------------
+// app setting----------------------------------------------------------------------------------------
+app.enabled('trust proxy');
 app.set("title", pkg.name)
 app.set("port", env.port);
 app.set('view engine', 'jade');
