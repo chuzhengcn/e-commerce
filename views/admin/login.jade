@@ -95,17 +95,17 @@ html(ng-app="login")
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-envelope
-                                            input#reminder-email.form-control.input-lg(type="text", name="reminder-email", placeholder="Email")
+                                            input#reminder-email.form-control.input-lg(type="text", name="reminder-email", placeholder="邮箱")
                                 .form-group.form-actions
                                     .col-xs-12.text-right
                                         button.btn.btn-sm.btn-primary(type="submit")
                                             i.fa.fa-angle-right
-                                            |  Reset Password
+                                            |  重置密码
                                 .form-group
                                     .col-xs-12.text-center
-                                        small Did you remember your password?
+                                        small 记起来你的密码了吗？
                                         a#link-reminder(href="javascript:void(0)")
-                                            small Login
+                                            small 登录
                             // END Reminder Form
                             // Register Form
                             form#form-register.form-horizontal.display-none(action="login_alt.html#register", method="post")

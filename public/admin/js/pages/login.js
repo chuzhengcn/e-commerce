@@ -81,14 +81,14 @@ var Login = function() {
                     },
                     'login-password': {
                         required: true,
-                        minlength: 5
+                        minlength: 6
                     }
                 },
                 messages: {
-                    'login-email': 'Please enter your account\'s email',
+                    'login-email': '请输入邮箱地址',
                     'login-password': {
-                        required: 'Please provide your password',
-                        minlength: 'Your password must be at least 5 characters long'
+                        required: '请输入密码',
+                        minlength: '密码至少6位'
                     }
                 }
             });
@@ -115,7 +115,7 @@ var Login = function() {
                     }
                 },
                 messages: {
-                    'reminder-email': 'Please enter your account\'s email'
+                    'reminder-email': '请输入邮箱地址'
                 }
             });
 

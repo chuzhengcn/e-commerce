@@ -11,7 +11,7 @@
             $http({
                 method  : "post",
                 url     : "/admin/login",
-                data    : #scope.user,
+                data    : $scope.user,
             }).success(function(data, status, headers, config) {
 
             }).error(function(data, status, headers, config) {
