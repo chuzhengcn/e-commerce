@@ -4,11 +4,187 @@ html(ng-app="login")
         include ./includes/head
     body
         .container
-            form(role="form", name="signInForm", ng-controller="signInController as signInCtrl", 
+            .row
+                .col-md-5.col-md-offset-1
+                    #login-alt-container
+                        // Title
+                        h1.push-top-bottom
+                            i.gi.gi-flash
+                            strong 微信商城管理系统
+                            br
+                            small WeChat E－Commerce Management
+                        // END Title
+                        // Key Features
+                        ul.fa-ul.text-muted
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  干净 &amp; 现代的产品模版设计
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  手机、平板、PC全平台支持 &amp; Retina 优化
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  高质量技术实现，无需聘请专业技术人员 
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  可视化分析销售数据
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  简单、美观、方便的后台管理
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  领先的微信客服解决方案
+                            li
+                                i.fa.fa-check.fa-li.text-success
+                                |  .. 还有更多激动人心的功能！
+                        // END Key Features
+                        // Footer
+                        footer.text-muted.push-top-bottom
+                            small
+                                span#year-copy
+                                |  &copy; 
+                                a(href="http://ec.feiyesoft.com", target="_blank") FeiYe EC 1.0
+                        // END Footer
+                .col-md-5
+                    // Login Container
+                    #login-container
+                        // Login Title
+                        .login-title.text-center
+                            h1
+                                strong 登录
+                                //- |  or 
+                                //- strong Register
+                        // END Login Title
+                        // Login Block
+                        .block.push-bit
+                            // Login Form
+                            form#form-login.form-horizontal(action="index.html", method="post")
+                                .form-group
+                                    .col-xs-12
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-envelope
+                                            input#login-email.form-control.input-lg(type="text", name="login-email", placeholder="邮箱")
+                                .form-group
+                                    .col-xs-12
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-asterisk
+                                            input#login-password.form-control.input-lg(type="password", name="login-password", placeholder="密码")
+                                .form-group.form-actions
+                                    .col-xs-4
+                                        label.switch.switch-primary(data-toggle="tooltip", title="下次自动登录?")
+                                            input#login-remember-me(type="checkbox", name="login-remember-me", checked="")
+                                            span
+                                    .col-xs-8.text-right
+                                        button.btn.btn-sm.btn-primary(type="submit")
+                                            i.fa.fa-angle-right
+                                            |  登录到控制台
+                                .form-group
+                                    .col-xs-12.text-center
+                                        a#link-reminder-login(href="javascript:void(0)")
+                                            small 忘记密码?
+                                        //- |  -
+                                        //- a#link-register-login(href="javascript:void(0)")
+                                        //-     small Create a new account
+                            // END Login Form
+                            // Reminder Form
+                            form#form-reminder.form-horizontal.display-none(action="login_alt.html#reminder", method="post")
+                                .form-group
+                                    .col-xs-12
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-envelope
+                                            input#reminder-email.form-control.input-lg(type="text", name="reminder-email", placeholder="Email")
+                                .form-group.form-actions
+                                    .col-xs-12.text-right
+                                        button.btn.btn-sm.btn-primary(type="submit")
+                                            i.fa.fa-angle-right
+                                            |  Reset Password
+                                .form-group
+                                    .col-xs-12.text-center
+                                        small Did you remember your password?
+                                        a#link-reminder(href="javascript:void(0)")
+                                            small Login
+                            // END Reminder Form
+                            // Register Form
+                            form#form-register.form-horizontal.display-none(action="login_alt.html#register", method="post")
+                                .form-group
+                                    .col-xs-6
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-user
+                                            input#register-firstname.form-control.input-lg(type="text", name="register-firstname", placeholder="Firstname")
+                                    .col-xs-6
+                                        input#register-lastname.form-control.input-lg(type="text", name="register-lastname", placeholder="Lastname")
+                                .form-group
+                                    .col-xs-12
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-envelope
+                                            input#register-email.form-control.input-lg(type="text", name="register-email", placeholder="Email")
+                                .form-group
+                                    .col-xs-12
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-asterisk
+                                            input#register-password.form-control.input-lg(type="password", name="register-password", placeholder="Password")
+                                .form-group
+                                    .col-xs-12
+                                        .input-group
+                                            span.input-group-addon
+                                                i.gi.gi-asterisk
+                                            input#register-password-verify.form-control.input-lg(type="password", name="register-password-verify", placeholder="Verify Password")
+                                .form-group.form-actions
+                                    .col-xs-6
+                                        a.register-terms(href="#modal-terms", data-toggle="modal") Terms
+                                        label.switch.switch-primary(data-toggle="tooltip", title="Agree to the terms")
+                                            input#register-terms(type="checkbox", name="register-terms")
+                                            span
+                                    .col-xs-6.text-right
+                                        button.btn.btn-sm.btn-success(type="submit")
+                                            i.fa.fa-plus
+                                            |  Register Account
+                                .form-group
+                                    .col-xs-12.text-center
+                                        small Do you have an account?
+                                        a#link-register(href="javascript:void(0)")
+                                            small Login
+                            // END Register Form
+                        // END Login Block
+                    // END Login Container
+        // END Login Alternative Row
+        // Modal Terms
+        #modal-terms.modal(tabindex="-1", role="dialog", aria-hidden="true")
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+                        h4.modal-title Terms &amp; Conditions
+                    .modal-body
+                        h4 Title
+                        p
+                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        p
+                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        h4 Title
+                        p
+                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        p
+                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        h4 Title
+                        p
+                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        p
+                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        // END Modal Terms
+        //- .container
+            form(role="form", name="signInForm", ng-controller="signInController", 
                 ng-submit="signInForm.$valid && signInCtrl.signIn", novalidate)
                 h2 登入小熊果园后台
-                input.form-control(type="text", name="name", placeholder="用户名", ng-model="signInCtrl.name", required, autofocus)
-                input.form-control(type="password", name="password", placeholder="密码", ng-model="signInCtrl.password", required)
+                input.form-control(type="text", name="name", placeholder="用户名", ng-model="name", required, autofocus)
+                input.form-control(type="password", name="password", placeholder="密码", ng-model="password", required)
                 button.btn.btn-lg.btn-primary.btn-block(type="submit") 登录
         include ./includes/script
-        script(src="/js/admin/login.js")
+        script(src="/admin/js/pages/login.js")
+        script(src="/admin/js/angular/login.js")
