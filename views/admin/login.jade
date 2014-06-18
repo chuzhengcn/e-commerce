@@ -58,23 +58,26 @@ html(ng-app="login")
                         // Login Block
                         .block.push-bit
                             // Login Form
-                            form#form-login.form-horizontal(action="index.html", method="post")
+                            form#form-login.form-horizontal(name="form_login", ng-controller="login_controller", 
+                                ng-submit="form_login.$valid && login()")
                                 .form-group
                                     .col-xs-12
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-envelope
-                                            input#login-email.form-control.input-lg(type="text", name="login-email", placeholder="邮箱")
+                                            input#login-email.form-control.input-lg(type="email", ng-model="user.email", 
+                                                name="login-email", placeholder="邮箱", required)
                                 .form-group
                                     .col-xs-12
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-asterisk
-                                            input#login-password.form-control.input-lg(type="password", name="login-password", placeholder="密码")
+                                            input#login-password.form-control.input-lg(type="password", ng-model="user.password", 
+                                                name="login-password", placeholder="密码", ng-maxlength="20", ng-minlength="6", required)
                                 .form-group.form-actions
                                     .col-xs-4
                                         label.switch.switch-primary(data-toggle="tooltip", title="下次自动登录?")
-                                            input#login-remember-me(type="checkbox", name="login-remember-me", checked="")
+                                            input#login-remember-me(type="checkbox", ng-model="user.remember_me", name="login-remember-me", checked="")
                                             span
                                     .col-xs-8.text-right
                                         button.btn.btn-sm.btn-primary(type="submit")
@@ -89,13 +92,15 @@ html(ng-app="login")
                                         //-     small Create a new account
                             // END Login Form
                             // Reminder Form
-                            form#form-reminder.form-horizontal.display-none(action="login_alt.html#reminder", method="post")
+                            form#form-reminder.form-horizontal.display-none(ng-controller="reminder_controller",name="form_reminder", 
+                                ng-submit="form_reminder.$valid && reset_password()")
                                 .form-group
                                     .col-xs-12
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-envelope
-                                            input#reminder-email.form-control.input-lg(type="text", name="reminder-email", placeholder="邮箱")
+                                            input#reminder-email.form-control.input-lg(type="email", name="reminder-email", 
+                                                placeholder="邮箱", ng-model="email" required)
                                 .form-group.form-actions
                                     .col-xs-12.text-right
                                         button.btn.btn-sm.btn-primary(type="submit")
@@ -178,13 +183,6 @@ html(ng-app="login")
                         p
                             | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         // END Modal Terms
-        //- .container
-            form(role="form", name="signInForm", ng-controller="signInController", 
-                ng-submit="signInForm.$valid && signInCtrl.signIn", novalidate)
-                h2 登入小熊果园后台
-                input.form-control(type="text", name="name", placeholder="用户名", ng-model="name", required, autofocus)
-                input.form-control(type="password", name="password", placeholder="密码", ng-model="password", required)
-                button.btn.btn-lg.btn-primary.btn-block(type="submit") 登录
         include ./includes/script
         script(src="/admin/js/pages/login.js")
         script(src="/admin/js/angular/login.js")

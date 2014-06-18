@@ -1,9 +1,8 @@
 var express = require("express"),
-    router  = express.Router();
+    router  = express.Router(),
+    login   = require("./login");
 
 exports.router = router;
 
 router.route("/")
-.all(function(req, res, next) {
-    res.render("admin/login")
-})
+.get(login.page)
