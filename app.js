@@ -7,6 +7,7 @@ var express         = require("express"),
     errorhandler    = require('errorhandler'),
     serveStatic     = require('serve-static'),
     morgan          = require('morgan'),
+    compression     = require('compression'),
     app             = express();
 
 // db connect ----------------------------------------------------------------------------------
@@ -36,21 +37,21 @@ app.set("port", env.port);
 app.set('view engine', 'jade');
 
 // middleware ----------------------------------------------------------------------------------------
-
-var backend_router = require("./routes/backend/index").router;
-
 app.use(morgan("dev"));
+app.use(compression());
 app.use(serveStatic('bower_components'));
 app.use(serveStatic('public'));
 app.use(serveStatic('pro_ui'));
-
-app.use("/backend", backend_router);
 
 // parse application/x-www-form-urlencoded
 // app.use(bodyParser.urlencoded());
 
 // parse application/json
 // app.use(bodyParser.json())
+
+var backend_router = require("./routes/backend/index").router;
+
+app.use("/backend", backend_router);
 
 if (app.get("env") === "development") {
     app.use(errorhandler())
@@ -60,13 +61,6 @@ if (app.get("env") === "development") {
 app.listen(app.get('port'))
 console.log(app.get("title") + " listen on " + app.get("port"))
 
-
-
-
-
-// // all environments
-// app.set('views', path.join(__dirname, 'views'));
-// 
 
 // app.use(express.json());
 // app.use(express.urlencoded());
