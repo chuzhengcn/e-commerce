@@ -36,14 +36,14 @@ app.set('view engine', 'jade');
 
 // middleware ----------------------------------------------------------------------------------------
 
-var admin_router = require("./routes/admin/index").router;
+var backend_router = require("./routes/backend/index").router;
 
 app.use(morgan("dev"));
 app.use(serveStatic('bower_components'));
 app.use(serveStatic('public'));
 app.use(serveStatic('pro_ui'));
 
-app.use("/admin", admin_router);
+app.use("/backend", backend_router);
 
 // parse application/x-www-form-urlencoded
 // app.use(bodyParser.urlencoded());

@@ -1,3 +1,3 @@
 exports.page = function (req, res, next) {
-    res.render("admin/login")
+    res.render("backend/login")
 }
