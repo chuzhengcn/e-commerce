@@ -47,13 +47,11 @@ html(ng-app="login")
                         // END Footer
                 .col-md-5
                     // Login Container
-                    #login-container
+                    #login-container(ng-controller="login_container_controller")
                         // Login Title
                         .login-title.text-center
                             h1
-                                strong 登录
-                                //- |  or 
-                                //- strong Register
+                                strong(ng-bind="title")
                         // END Login Title
                         // Login Block
                         .block.push-bit
@@ -85,11 +83,11 @@ html(ng-app="login")
                                             |  登录到控制台
                                 .form-group
                                     .col-xs-12.text-center
-                                        a#link-reminder-login(href="javascript:void(0)")
+                                        a#link-reminder-login(href="javascript:void(0)", ng-click="switch_title('找回密码')")
                                             small 忘记密码?
-                                        //- |  -
-                                        //- a#link-register-login(href="javascript:void(0)")
-                                        //-     small Create a new account
+                                        |  - 
+                                        a#link-register-login(href="javascript:void(0)", ng-click="switch_title('注册账号')")
+                                            small 创建一个新账号
                             // END Login Form
                             // Reminder Form
                             form#form-reminder.form-horizontal.display-none(ng-controller="reminder_controller",name="form_reminder", 
@@ -109,52 +107,47 @@ html(ng-app="login")
                                 .form-group
                                     .col-xs-12.text-center
                                         small 记起来你的密码了吗？
-                                        a#link-reminder(href="javascript:void(0)")
+                                        a#link-reminder(href="javascript:void(0)", ng-click="switch_title('登录')")
                                             small 登录
                             // END Reminder Form
                             // Register Form
-                            form#form-register.form-horizontal.display-none(action="login_alt.html#register", method="post")
-                                .form-group
-                                    .col-xs-6
-                                        .input-group
-                                            span.input-group-addon
-                                                i.gi.gi-user
-                                            input#register-firstname.form-control.input-lg(type="text", name="register-firstname", placeholder="Firstname")
-                                    .col-xs-6
-                                        input#register-lastname.form-control.input-lg(type="text", name="register-lastname", placeholder="Lastname")
+                            form#form-register.form-horizontal.display-none(ng-controller="form_register_controller", name="form_register",
+                                ng-submit="form_register.$valid && reg()")
                                 .form-group
                                     .col-xs-12
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-envelope
-                                            input#register-email.form-control.input-lg(type="text", name="register-email", placeholder="Email")
+                                            input#register-email.form-control.input-lg(type="email", ng-model="user.email", name="register-email", placeholder="邮箱", required)
                                 .form-group
                                     .col-xs-12
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-asterisk
-                                            input#register-password.form-control.input-lg(type="password", name="register-password", placeholder="Password")
+                                            input#register-password.form-control.input-lg(type="password", ng-model="user.password", 
+                                                ng-minlength="6", ng-maxlength="20", name="register-password", placeholder="密码")
                                 .form-group
                                     .col-xs-12
                                         .input-group
                                             span.input-group-addon
                                                 i.gi.gi-asterisk
-                                            input#register-password-verify.form-control.input-lg(type="password", name="register-password-verify", placeholder="Verify Password")
+                                            input#register-password-verify.form-control.input-lg(type="password", ng-model="user.password_verify",
+                                                ng-minlength="6", ng-maxlength="20", name="register-password-verify", placeholder="重复一次密码")
                                 .form-group.form-actions
                                     .col-xs-6
-                                        a.register-terms(href="#modal-terms", data-toggle="modal") Terms
-                                        label.switch.switch-primary(data-toggle="tooltip", title="Agree to the terms")
-                                            input#register-terms(type="checkbox", name="register-terms")
+                                        a.register-terms(href="#modal-terms", data-toggle="modal") 服务条款
+                                        label.switch.switch-primary(data-toggle="tooltip", title="同意服务条款")
+                                            input#register-terms(type="checkbox", name="register-terms", ng-model="user.agree_terms", required)
                                             span
                                     .col-xs-6.text-right
-                                        button.btn.btn-sm.btn-success(type="submit")
+                                        button.btn.btn-sm.btn-success(type="submit", ng-disabled="!form_register.$valid")
                                             i.fa.fa-plus
-                                            |  Register Account
+                                            |  注册账号
                                 .form-group
                                     .col-xs-12.text-center
-                                        small Do you have an account?
-                                        a#link-register(href="javascript:void(0)")
-                                            small Login
+                                        small 已经有账号了? 
+                                        a#link-register(href="javascript:void(0)", ng-click="switch_title('登录')")
+                                            small 登录
                             // END Register Form
                         // END Login Block
                     // END Login Container
@@ -165,23 +158,25 @@ html(ng-app="login")
                 .modal-content
                     .modal-header
                         button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-                        h4.modal-title Terms &amp; Conditions
+                        h4.modal-title 服务条款 &amp; 隐私权政策
                     .modal-body
-                        h4 Title
+                        h4 服务条款
                         p
-                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            | 感谢您使用我们的产品和服务（下称“服务”）。服务由 深圳市扉页软间有限公司提供。以下简称“扉页”， 您使用我们的服务即表示您已同意本条款。请仔细阅读。
                         p
-                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        h4 Title
+                            | 请勿滥用我们的服务。举例而言，请勿干扰我们的服务或尝试使用除我们提供的界面和指示以外的方法访问这些服务。您仅能在法律（包括适用的出口和再出口管制法律和法规）允许的范围内使用我们的服务。如果您不遵守我们的条款或政策，或者我们在调查可疑的不当行为，我们可以暂停或停止向您提供服务。
                         p
-                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            | 在法律允许的范围内，扉页及其供应商和分销商不承担利润损失、收入损失或数据、财务损失或间接、特殊、后果性、惩戒性或惩罚性损害赔偿责任。
+                        h4 您在我们服务中发布的内容
                         p
-                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        h4 Title
+                            | 我们的某些服务允许您上传、提交、存储、发送或接收内容。您保留对该内容持有的任何知识产权的所有权。简言之，属于您的内容依然归您所有。
                         p
-                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            | 发布的内容必须在法律的许可范围之内。
+                        h4 隐私权政策
                         p
-                            | Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            | 我们会利用从所有服务中收集到的信息来提供、维护、保护和完善这些服务，同时开发新的服务并保护用户。我们还会使用此类信息为您提供定制内容。
+                        p
+                            | 我们不会与扉页以外的任何公司、组织和个人分享用户的个人信息，但出于法律原因除外。
         // END Modal Terms
         include ./includes/script
         script(src="/static/backend/js/pages/login.js")

@@ -3,11 +3,9 @@ exports.page = function(req, res, next) {
 }
 
 exports.sign_in = function(req, res, next) {
-    console.log(req.body)
     res.json({ret : 0})
 }
 
 exports.reset_password = function(req, res, next) {
-    console.log(req.body)
     res.json({ret : 0})
 }
