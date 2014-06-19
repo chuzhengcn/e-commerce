@@ -51,7 +51,7 @@ app.use(serveStatic('pro_ui'));
 
 var backend_router = require("./routes/backend/index").router;
 
-app.use("/backend", backend_router);
+app.use("/be", backend_router);
 
 if (app.get("env") === "development") {
     app.use(errorhandler())
