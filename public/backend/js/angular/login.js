@@ -11,8 +11,8 @@
         $scope.login = function() {
             $http({
                 method  : "post",
-                url     : "/be/login",
-                data    : $scope.user,
+                url     : "/backend/login",
+                data    : $scope.user
             }).success(function(data, status, headers, config) {
 
             }).error(function(data, status, headers, config) {
@@ -27,8 +27,8 @@
         $scope.reset_password = function() {
             $http({
                 method  : "post",
-                url     : "/be/reset-password",
-                data    : $scope.email,
+                url     : "/backend/reset-password",
+                data    : {email : $scope.email}
             }).success(function(data, status, headers, config) {
 
             }).error(function(data, status, headers, config) {

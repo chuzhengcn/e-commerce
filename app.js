@@ -8,6 +8,7 @@ var express         = require("express"),
     serveStatic     = require('serve-static'),
     morgan          = require('morgan'),
     compression     = require('compression'),
+    bodyParser      = require("body-parser"),
     app             = express();
 
 // db connect ----------------------------------------------------------------------------------
@@ -39,19 +40,19 @@ app.set('view engine', 'jade');
 // middleware ----------------------------------------------------------------------------------------
 app.use(morgan("dev"));
 app.use(compression());
-app.use(serveStatic('bower_components'));
-app.use(serveStatic('public'));
-app.use(serveStatic('pro_ui'));
+app.use("/static", serveStatic('bower_components'));
+app.use("/static", serveStatic('public'));
+app.use("/static", serveStatic('pro_ui'));
 
 // parse application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded());
 
 // parse application/json
-// app.use(bodyParser.json())
+app.use(bodyParser.json())
 
 var backend_router = require("./routes/backend/index").router;
 
-app.use("/be", backend_router);
+app.use("/backend", backend_router);
 
 if (app.get("env") === "development") {
     app.use(errorhandler())
