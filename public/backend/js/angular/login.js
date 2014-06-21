@@ -1,7 +1,7 @@
 (function(){
     var app = angular.module('login', []);
 
-    app.controller("login_container_controller", function($scope) {
+    app.controller("login_container_controller", ["$scope", function($scope) {
         if (location.hash === '#register') {
             $scope.title = "注册";
         } else if (location.hash === '#reminder') {
@@ -13,9 +13,9 @@
         $scope.switch_title = function(title) {
             $scope.title = title;
         }
-    })
+    }])
 
-    app.controller("login_controller", function($scope, $http) {
+    app.controller("login_controller", ["$scope", "$http", function($scope, $http) {
         $scope.user = {
             name     : "",
             password : "",
@@ -33,9 +33,9 @@
                 
             })
         }
-    })
+    }])
 
-    app.controller("reminder_controller", function($scope, $http) {
+    app.controller("reminder_controller", ["$scope", "$http", function($scope, $http) {
         $scope.email = "";
 
         $scope.reset_password = function() {
@@ -49,9 +49,9 @@
                 
             })
         }
-    })
+    }])
 
-    app.controller("form_register_controller", function($scope, $http) {
+    app.controller("form_register_controller", ["$scope", "$http", function($scope, $http) {
         $scope.user = {};
 
         $scope.reg = function(user) {
@@ -66,7 +66,7 @@
             })
         }
 
-    })
+    }])
 
     function login_success() {
 
