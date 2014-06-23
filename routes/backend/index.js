@@ -1,7 +1,7 @@
 var express = require("express"),
     router  = express.Router(),
     login   = require("./login"),
-    user    = require("./user");
+    admin   = require("./admin");
 
 exports.router = router;
 
@@ -11,4 +11,4 @@ router.route("/")
 
 router.post("/login", login.sign_in)
 router.post("/reset-password", login.reset_password)
-router.post("/reg", user.create)
+router.post("/reg", admin.create)

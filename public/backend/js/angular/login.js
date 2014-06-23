@@ -1,6 +1,13 @@
 (function(){
     var app = angular.module('login', []);
 
+    app.directive("fyLoadingBtn", function() {
+        return {
+            restrict : "A",
+            
+        }
+    })
+
     app.controller("login_container_controller", ["$scope", function($scope) {
         if (location.hash === '#register') {
             $scope.title = "注册";

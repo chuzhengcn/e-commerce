@@ -9,6 +9,8 @@ var express         = require("express"),
     morgan          = require('morgan'),
     compression     = require('compression'),
     bodyParser      = require("body-parser"),
+    send_result     = require("./util/send_result"),
+    http_error      = require("./util/http_error"),
     app             = express();
 
 // db connect ----------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ app.use("/static", serveStatic(path.join(__dirname,'public')));
 app.use("/static", serveStatic(path.join(__dirname,'pro_ui')));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended : true}));
 
 // parse application/json
 app.use(bodyParser.json())
@@ -54,6 +56,15 @@ app.use(bodyParser.json())
 var backend_router = require("./routes/backend/index").router;
 
 app.use("/backend", backend_router);
+
+app.use(send_result);
+
+// 404 page
+app.all("*", http_error.http404);
+
+// 500 page
+app.use(http_error.http500);
+
 
 if (app.get("env") === "development") {
     app.use(errorhandler())

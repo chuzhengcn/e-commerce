@@ -17,6 +17,8 @@
         "errorhandler"  : "latest",
         "serve-static"  : "latest",
         "morgan"        : "latest",
-        "compression"   : "latest"
+        "compression"   : "latest",
+        "bcrypt"        : "latest",
+        "connect-mongo" : "latest"
     }
 }
