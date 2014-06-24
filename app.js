@@ -11,6 +11,7 @@ var express         = require("express"),
     bodyParser      = require("body-parser"),
     send_result     = require("./util/send_result"),
     http_error      = require("./util/http_error"),
+    app_router      = require("./routes").router,
     app             = express();
 
 // db connect ----------------------------------------------------------------------------------
@@ -51,16 +52,9 @@ app.use("/static", serveStatic(path.join(__dirname,'pro_ui')));
 app.use(bodyParser.urlencoded({extended : true}));
 
 // parse application/json
-app.use(bodyParser.json())
-
-var backend_router = require("./routes/backend/index").router;
-
-app.use("/backend", backend_router);
-
+app.use(bodyParser.json());
 app.use(send_result);
-
-// 404 page
-app.all("*", http_error.http404);
+app.use(app_router);
 
 // 500 page
 app.use(http_error.http500);

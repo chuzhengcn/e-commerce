@@ -15,13 +15,13 @@ var Admin = new Schema({
             unique  : true
         }, 
         trim : true,
-        // match : [/^{1,10}$/, "{VALUE} 不是合法的名字，长度必须小于10"]
+        match : [/\S{1,10}/, "{VALUE} 不是合法的名字，长度必须小于10"]
     },
     password : {
         type        : String,
         required    : "密码必填",
         trim        : true,
-        // match       : [/^{6,16}$/, "密码6－16位"]
+        match       : [/\S{6,16}$/, "密码6－16位"]
     },
     is_active : {
         type        : String,
@@ -53,11 +53,30 @@ var Admin = new Schema({
     }
 })
 
-// middleware
-Admin.pre("save", function(next, done) {
-    console.log(this)
+// middleware -- encrptPassword
+Admin.pre("save", true, function(next, done) {
+    if (!this.password) {
+        next()
+        done()
+        return
+    }
+
+    var self = this
+
+    encryptPassword(self.password, function(err, hash) {
+        if (err) {
+            return next(err)
+        }
+
+        self.password = hash
+        console.log(self)
+        next()
+        done()
+    })
+
 })
 
+// 生成密码函数
 function encryptPassword(password, cb) {
     bcrypt.genSalt(10, function(err, salt) {
         if (err) {

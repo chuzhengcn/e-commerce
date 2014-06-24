@@ -6,34 +6,38 @@ exports = module.exports = function(req, res, next) {
         default_success_msg = "操作成功",
         default_data        = "[]";
         
+    if (req.accepts("json")) {
+        res.send_success = function(msg, data) {
+            res.send({
+                code : default_success_code, 
+                msg : msg || default_success_msg, 
+                data : data || default_data
+            })
+        }
 
-    if (req.is('html')) {
-        if (res.result.ok) {
+        res.send_failure = function(msg, code) {
+            res.send({
+                code : code || default_failure_code, 
+                msg : msg || default_failure_msg
+            })
+        }
+    } else {
+        res.send_success = function(msg, data, return_url) {
             res.render(get_template(req, "success"), {
-                msg         : res.result.msg || default_success_msg,
+                msg         : msg || default_success_msg,
                 code        : default_success_code,
-                return_url  : res.result.return_url || default_return_url,
-                data        : res.result.data || default_data,
+                data        : data || default_data,
+                return_url  : return_url || default_return_url,
             })
-        } else {
+        }
+
+        res.send_failure = function(msg, code, return_url) {
             res.render(get_template(req, "failure"), {
-                msg         : res.result.msg || default_failure_msg,
-                code        : res.result.code || default_failure_code,
-                return_url  : res.result.return_url || default_return_url,
+                msg         : msg || default_failure_msg,
+                code        : code || default_failure_code,
+                return_url  : return_url || default_return_url,
             })
         }
-
-        return
-    }
-
-    if (req.is('json')) {
-        if (res.result.ok) {
-            res.send({code : default_success_code, msg : res.result.msg || default_success_msg, data : res.result.data || default_data})
-        } else {
-            res.send({code : res.result.code || default_failure_code, msg : res.result.msg || default_failure_msg})
-        }
-
-        return
     }
 
     next()
