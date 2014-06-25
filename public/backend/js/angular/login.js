@@ -23,11 +23,7 @@
     }])
 
     app.controller("login_controller", ["$scope", "$http", function($scope, $http) {
-        $scope.user = {
-            name     : "",
-            password : "",
-            remember_me : true,
-        };
+        $scope.user = {};
 
         $scope.login = function() {
             $http({
@@ -35,10 +31,15 @@
                 url     : "/backend/login",
                 data    : $scope.user
             }).success(function(data, status, headers, config) {
+                if (data.code === 0) {
+                    App.alert_message("success", "登录成功")
+                    setTimeout(function() {
+                        location.href = '/backend/admin'
+                    }, 2000)
+                }
 
-            }).error(function(data, status, headers, config) {
-                
-            })
+                App.alert_message("danger", "登录失败", data.msg)
+            }).error(App.show_error)
         }
     }])
 
@@ -52,31 +53,32 @@
                 data    : {email : $scope.email}
             }).success(function(data, status, headers, config) {
 
-            }).error(function(data, status, headers, config) {
-                
-            })
+            }).error(App.show_error)
         }
     }])
 
     app.controller("form_register_controller", ["$scope", "$http", function($scope, $http) {
         $scope.user = {};
 
-        $scope.reg = function(user) {
+        $scope.reg = function() {
             $http({
                 method  : "post",
                 url     : "/backend/reg",
-                data    : user,
+                data    : $scope.user,
             }).success(function(data, status, headers, config) {
+                if (data.code === 0) {
+                    App.alert_message("success", "注册成功")
+                    setTimeout(function() {
+                        location.href = '/backend/admin'
+                    }, 2000)
 
-            }).error(function(data, status, headers, config) {
-                
-            })
+                    return
+                }
+
+                App.alert_message("danger", "注册失败", data.msg)
+            }).error(App.show_error)
         }
 
     }])
-
-    function login_success() {
-
-    }
 
 })();

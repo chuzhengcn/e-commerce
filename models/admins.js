@@ -8,12 +8,19 @@ var mongoose = require('mongoose'),
 
 // define 
 var Admin = new Schema({
+    email : {
+        type        : String,
+        required    : "邮箱必填", 
+        match       : [/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/, "{VALUE} 不是一个合法的邮箱"],
+        index       : {
+            unique: true
+        },
+        lowercase   : true, 
+        trim        : true
+    },
     name : {
         type    : String, 
-        default : "", 
-        index : {
-            unique  : true
-        }, 
+        default : "",
         trim : true,
         match : [/\S{1,10}/, "{VALUE} 不是合法的名字，长度必须小于10"]
     },
@@ -32,16 +39,6 @@ var Admin = new Schema({
             values  : 'yes no'.split(' '), 
             message : "{VALUE} 不是合法的 {PATH}"
         }
-    },
-    email : {
-        type        : String,
-        required    : "邮箱必填", 
-        match       : [/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/, "{VALUE} 不是一个合法的邮箱"],
-        index       : {
-            unique: true
-        },
-        lowercase   : true, 
-        trim        : true
     },
     created_at : {
         type    : Date, 
@@ -69,12 +66,67 @@ Admin.pre("save", true, function(next, done) {
         }
 
         self.password = hash
-        console.log(self)
         next()
         done()
     })
 
 })
+
+// static method
+Admin.statics.validate_identity = function(email, password, cb) {
+    var self = this;
+    async.waterfall([
+
+        // validate params
+        function(callback) {
+            if (typeof email === 'undefined') {
+                return callback("邮箱必填")
+            }
+
+            if (typeof password === 'undefined') {
+                return callback("密码必填")
+            }
+
+            callback(null)
+        },
+
+        // get admin
+        function(callback) {
+            self.findOne({email : email}, function(err, doc) {
+                if (err) {
+                    return callback(err)
+                }
+
+                if (doc === null) {
+                    return callback("不存在该用户")
+                }
+
+                callback(null, doc)
+
+            })
+        },
+
+        // validate password
+        function(doc, callback) {
+            validatePassword(password, doc.password, function(err, passed) {
+                if (err) {
+                    return callback(err)
+                }
+
+                if (!passed) {
+                    return callback("密码错误")
+                }
+
+                callback(null, true)
+            })
+        }
+    ], 
+    function(err, valid) {
+        cb(err, valid)
+    })
+}
+
+// helper
 
 // 生成密码函数
 function encryptPassword(password, cb) {
@@ -88,5 +140,12 @@ function encryptPassword(password, cb) {
         });
     });
 }
+
+// 校验密码
+function validatePassword(password, hash, cb) {
+    bcrypt.compare(password, hash, function(err, result) {
+        cb(err, result);
+    });
+};
 
 module.exports = mongoose.model('admins', Admin);

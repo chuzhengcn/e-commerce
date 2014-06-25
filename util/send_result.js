@@ -1,3 +1,5 @@
+var helper = require("./helper");
+
 exports = module.exports = function(req, res, next) {
     var default_return_url = "/",
         default_failure_code = -1,
@@ -15,10 +17,16 @@ exports = module.exports = function(req, res, next) {
             })
         }
 
-        res.send_failure = function(msg, code) {
+        res.send_failure = function(err, msg, code) {
+            var message = helper.get_error_message(err);
+
+            if (msg) {
+                message = msg;
+            }
+
             res.send({
                 code : code || default_failure_code, 
-                msg : msg || default_failure_msg
+                msg : message || default_failure_msg
             })
         }
     } else {
@@ -32,8 +40,14 @@ exports = module.exports = function(req, res, next) {
         }
 
         res.send_failure = function(msg, code, return_url) {
+            var message = helper.get_error_message(err);
+
+            if (msg) {
+                message = msg;
+            }
+            
             res.render(get_template(req, "failure"), {
-                msg         : msg || default_failure_msg,
+                msg         : message || default_failure_msg,
                 code        : code || default_failure_code,
                 return_url  : return_url || default_return_url,
             })

@@ -1,0 +1,12 @@
+#alert-message {
+    width: 300px;
+    position: absolute;
+    top : 0;
+    left : 50%;
+    margin-left: -150px;
+    z-index: 9000;
+}
+
+#alert-message .alert {
+    display: none;
+}

@@ -11,7 +11,7 @@ var express         = require("express"),
     bodyParser      = require("body-parser"),
     send_result     = require("./util/send_result"),
     http_error      = require("./util/http_error"),
-    app_router      = require("./routes").router,
+    app_router      = require("./routes/app").router,
     app             = express();
 
 // db connect ----------------------------------------------------------------------------------

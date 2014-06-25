@@ -1,6 +1,4 @@
-var express     = require("express"),
-    async       = require("async"),
-    router      = express.Router(),
+var async       = require("async"),
     model_admin = require("../../models/admins");
 
 exports.create = function(req, res, next) {
@@ -10,8 +8,13 @@ exports.create = function(req, res, next) {
         // validator 
         function(callback) {
             if (req.body.password !== req.body.password_verify) {
-                return callback(new Error("两次密码输入不一致"))
+                return callback("两次密码输入不一致")
             }
+
+            if (!req.body.agree_terms) {
+                return callback("必须同意服务条款才能注册")
+            }
+
             callback(null)
         },
 
@@ -29,10 +32,10 @@ exports.create = function(req, res, next) {
     ],
     function(err) {
         if (err) {
-            console.log(err)
-            res.send_failure(err.message)
+            res.send_failure(err)
         } else {
             res.send_success()
         }
     })
 }
+
