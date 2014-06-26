@@ -72,9 +72,10 @@ Admin.pre("save", true, function(next, done) {
 
 })
 
-// static method
+// static method ---------------------------------------------------
 Admin.statics.validate_identity = function(email, password, cb) {
     var self = this;
+
     async.waterfall([
 
         // validate params
@@ -117,7 +118,7 @@ Admin.statics.validate_identity = function(email, password, cb) {
                     return callback("密码错误")
                 }
 
-                callback(null, true)
+                callback(null, doc)
             })
         }
     ], 
@@ -126,7 +127,7 @@ Admin.statics.validate_identity = function(email, password, cb) {
     })
 }
 
-// helper
+// helper ---------------------------------------------------------------------------
 
 // 生成密码函数
 function encryptPassword(password, cb) {

@@ -9,9 +9,14 @@ var express         = require("express"),
     morgan          = require('morgan'),
     compression     = require('compression'),
     bodyParser      = require("body-parser"),
+    cookieParser    = require("cookie-parser"),
+    passport        = require("passport"),
+    admin_auth      = require("./controllers/backend/auth"),
     send_result     = require("./util/send_result"),
     http_error      = require("./util/http_error"),
     app_router      = require("./routes/app").router,
+    session         = require('express-session'),
+    mongoStore      = require('connect-mongo')(session),
     app             = express();
 
 // db connect ----------------------------------------------------------------------------------
@@ -53,6 +58,10 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({secret: env.cryptoKey, store: new mongoStore({ url: env.mongo_url })}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(send_result);
 app.use(app_router);
 
@@ -64,14 +73,13 @@ if (app.get("env") === "development") {
     app.use(errorhandler())
 }
 
+//setup admin passport
+admin_auth(app, passport);
+
 // run --------------------------------------------------------------------------------------------
 app.listen(app.get('port'))
 console.log(app.get("title") + " listen on " + app.get("port"))
 
 
-// app.use(express.json());
-// app.use(express.urlencoded());
-// app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/tmp' }))
-// app.use(express.cookieParser('feiyesoft'))
 // app.use(express.cookieSession({key : 'xiaoxiong'}))
 

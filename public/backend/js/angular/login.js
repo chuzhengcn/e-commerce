@@ -34,8 +34,10 @@
                 if (data.code === 0) {
                     App.alert_message("success", "登录成功")
                     setTimeout(function() {
-                        location.href = '/backend/admin'
+                        // location.href = '/backend/admin'
                     }, 2000)
+                    
+                    return
                 }
 
                 App.alert_message("danger", "登录失败", data.msg)

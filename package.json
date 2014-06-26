@@ -6,19 +6,23 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "express"       : "latest",
-        "jade"          : "latest",
-        "moment"        : "latest",
-        "async"         : "latest",
-        "xml2js"        : "latest",
-        "request"       : "latest",
-        "mongoose"      : "latest",
-        "body-parser"   : "latest",
-        "errorhandler"  : "latest",
-        "serve-static"  : "latest",
-        "morgan"        : "latest",
-        "compression"   : "latest",
-        "bcrypt"        : "latest",
-        "connect-mongo" : "latest"
+        "express"           : "latest",
+        "jade"              : "latest",
+        "moment"            : "latest",
+        "async"             : "latest",
+        "xml2js"            : "latest",
+        "request"           : "latest",
+        "mongoose"          : "latest",
+        "body-parser"       : "latest",
+        "errorhandler"      : "latest",
+        "serve-static"      : "latest",
+        "morgan"            : "latest",
+        "compression"       : "latest",
+        "bcrypt"            : "latest",
+        "cookie-parser"     : "latest",
+        "passport"          : "latest",
+        "passport-local"    : "latest",
+        "express-session"   : "latest",
+        "connect-mongo"     : "latest"
     }
 }

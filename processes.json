@@ -1,0 +1,8 @@
+[{
+    "name" : "e-commerce",
+    "script" : "./app.js",
+    "error_file" : "./logs/stderr.log",
+    "out_file" : "./logs/stdout.log",
+    "watch" : "true",
+    "ignoreWatch" : ["public", "node_modules", "pro_ui", "bower_components"]
+}]
