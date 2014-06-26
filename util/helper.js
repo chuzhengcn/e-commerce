@@ -1,3 +1,5 @@
+var bcrypt   = require('bcrypt');
+
 function get_error_message(err) {
     console.log(err)
 
@@ -38,3 +40,27 @@ function get_error_message(err) {
 }
 
 exports.get_error_message = get_error_message;
+
+// 生成密码函数
+function encryptPassword(password, cb) {
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) {
+            return cb(err);
+        }
+
+        bcrypt.hash(password, salt, function(err, hash) {
+            cb(err, hash);
+        });
+    });
+}
+
+exports.encryptPassword = encryptPassword;
+
+// 校验密码
+function validatePassword(password, hash, cb) {
+    bcrypt.compare(password, hash, function(err, result) {
+        cb(err, result);
+    });
+};
+
+exports.validatePassword = validatePassword;

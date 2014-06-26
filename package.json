@@ -23,6 +23,7 @@
         "passport"          : "latest",
         "passport-local"    : "latest",
         "express-session"   : "latest",
+        "emailjs"           : "latest",
         "connect-mongo"     : "latest"
     }
 }

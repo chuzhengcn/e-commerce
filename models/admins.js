@@ -2,9 +2,10 @@
 
 var mongoose = require('mongoose'),
     Schema   = mongoose.Schema,
-    bcrypt   = require('bcrypt'),
     async    = require("async"),
-    moment   = require("moment");
+    moment   = require("moment"),
+    crypto   = require('crypto'),
+    helper   = require("../util/helper");
 
 // define 
 var Admin = new Schema({
@@ -40,6 +41,12 @@ var Admin = new Schema({
             message : "{VALUE} 不是合法的 {PATH}"
         }
     },
+    reset_password_token : {
+        type : String
+    },
+    reset_password_expires : {
+        type : Date
+    },
     created_at : {
         type    : Date, 
         default : Date.now
@@ -60,7 +67,7 @@ Admin.pre("save", true, function(next, done) {
 
     var self = this
 
-    encryptPassword(self.password, function(err, hash) {
+    helper.encryptPassword(self.password, function(err, hash) {
         if (err) {
             return next(err)
         }
@@ -109,7 +116,7 @@ Admin.statics.validate_identity = function(email, password, cb) {
 
         // validate password
         function(doc, callback) {
-            validatePassword(password, doc.password, function(err, passed) {
+            helper.validatePassword(password, doc.password, function(err, passed) {
                 if (err) {
                     return callback(err)
                 }
@@ -127,26 +134,57 @@ Admin.statics.validate_identity = function(email, password, cb) {
     })
 }
 
-// helper ---------------------------------------------------------------------------
+Admin.statics.generate_forgot_token = function(email, cb) {
+    var self = this,
+        expires_time = 1000 * 60 * 30; //30min
 
-// 生成密码函数
-function encryptPassword(password, cb) {
-    bcrypt.genSalt(10, function(err, salt) {
-        if (err) {
-            return cb(err);
-        }
+    email = email && email.toLocaleLowerCase();
 
-        bcrypt.hash(password, salt, function(err, hash) {
-            cb(err, hash);
-        });
-    });
-}
+    async.waterfall([
 
-// 校验密码
-function validatePassword(password, hash, cb) {
-    bcrypt.compare(password, hash, function(err, result) {
-        cb(err, result);
-    });
-};
+        // generateToken
+        function(callback) {
+            crypto.randomBytes(21, function(err, buf) {
+                if (err) {
+                    return callback(err);
+                }
+
+                var token = buf.toString('hex');
+
+                helper.encryptPassword(token, function(err, hash) {
+                    if (err) {
+                        return callback(err)
+                    }
+
+                    callback(null, hash)
+                })
+            });
+        },
+
+        // save to db
+        function(hash, callback) {
+            self.findOne({email : email}, function(err, doc) {
+                if (err) {
+                    return callback(err)
+                }
+
+                if (!doc) {
+                    return callback("用户不存在")
+                }
+
+                doc.reset_password_token = hash;
+                doc.reset_password_expires = Date.now() + expires_time;
+
+                doc.save(function(err, doc) {
+                    callback(err, doc)
+                })
+            })
+        },
+    ],
+    function(err, result) {
+        cb(err, result)
+    })
+} 
+
 
 module.exports = mongoose.model('admins', Admin);

@@ -36,7 +36,7 @@
                     setTimeout(function() {
                         // location.href = '/backend/admin'
                     }, 2000)
-                    
+
                     return
                 }
 
@@ -51,10 +51,16 @@
         $scope.reset_password = function() {
             $http({
                 method  : "post",
-                url     : "/backend/reset-password",
+                url     : "/backend/forgot-password",
                 data    : {email : $scope.email}
             }).success(function(data, status, headers, config) {
+                if (data.code === 0) {
+                    App.alert_message("success", "密码重置链接已发往您的注册邮箱", "请登录邮箱查看")
+                    
+                    return
+                }
 
+                App.alert_message("danger", "重置密码失败", data.msg)
             }).error(App.show_error)
         }
     }])

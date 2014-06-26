@@ -15,6 +15,7 @@ backend_router.route("/login")
 .post(login.sign_in)
 
 backend_router.post("/reset-password", login.reset_password)
+backend_router.post("/forgot-password", login.forgot_password)
 backend_router.post("/reg", admin.create)
 
 // 404 page
