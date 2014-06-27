@@ -42,7 +42,7 @@ exports.forgot_password = function(req, res) {
             email_sender.send_text_only({
                 to      : doc.email,
                 subject : "重置密码邮件",
-                text    : req.protocol +'://'+ req.headers.host +'/backend/reset-password/'+ doc.email +'/'+ doc.reset_password_token
+                text    : req.protocol +'://'+ req.headers.host +'/backend/reset-password/'+ doc._id +'/'+ doc.reset_password_token
             },function(err, message) {
                 if (err) {
                     console.log(err)
@@ -62,6 +62,45 @@ exports.forgot_password = function(req, res) {
     })
 }
 
-exports.reset_password = function(req, res, next) {
-    res.json({ret : 0})
+exports.reset_password_page = function(req, res, next) {
+    var email = req.params.email,
+        token = req.params.token;
+
+    res.render("/statics/backend/reset-password")
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
