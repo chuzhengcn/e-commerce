@@ -19,6 +19,7 @@
         $scope.user = {};
 
         $scope.login = function() {
+            console.log($scope)
             $http({
                 method  : "post",
                 url     : "/backend/login",
@@ -34,7 +35,7 @@
                 }
 
                 App.alert_message("danger", "登录失败", data.msg)
-            }).error(App.show_error)
+            }).error(App.show_error).then()
         }
     }])
 
@@ -48,8 +49,8 @@
                 data    : {email : $scope.email}
             }).success(function(data, status, headers, config) {
                 if (data.code === 0) {
-                    App.alert_message("success", "密码重置链接已发往您的注册邮箱", "请登录邮箱查看")
-                    
+                    App.alert_message("success", "操作成功", "密码重置验证码已发往您的注册邮箱")
+                    location.href= "/backend/reset-password/" + data
                     return
                 }
 

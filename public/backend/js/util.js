@@ -9,6 +9,14 @@
     }
 
     App.show_error = function(data, status, headers, config) {
-        App.alert-message("danger", "出了点问题", "遇到一些未知错误")
+        App.alert_message("danger", "出了点问题", "遇到一些未知错误")
     } 
+
+    App.loading_submit_btn = function() {
+        
+    }
+
+    App.reset_submit_btn = function() {
+
+    }
 }());

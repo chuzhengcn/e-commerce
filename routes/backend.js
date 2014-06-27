@@ -14,8 +14,9 @@ backend_router.route("/login")
 .get(login.page)
 .post(login.sign_in)
 
-backend_router.route("/reset-password/:id/:token")
+backend_router.route("/reset-password/:id")
 .get(login.reset_password_page)
+.post(login.reset_password_action)
 
 
 backend_router.post("/reg", admin.create)
@@ -23,4 +24,4 @@ backend_router.post("/forgot-password", login.forgot_password)
 
 
 // 404 page
-backend_router.all("*", http_error.http404);
+// backend_router.all("*", http_error.http404);

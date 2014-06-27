@@ -42,14 +42,14 @@ exports.forgot_password = function(req, res) {
             email_sender.send_text_only({
                 to      : doc.email,
                 subject : "重置密码邮件",
-                text    : req.protocol +'://'+ req.headers.host +'/backend/reset-password/'+ doc._id +'/'+ doc.reset_password_token
+                text    : "重置密码的验证码：" + doc.reset_password_token
             },function(err, message) {
                 if (err) {
                     console.log(err)
                     return callback("发送邮件到" + doc.email + "失败")
                 }
 
-                callback(null, message)
+                callback(null, doc._id)
             })
         }
     ],
@@ -58,15 +58,49 @@ exports.forgot_password = function(req, res) {
             return res.send_failure(err)
         }
 
-        res.send_success()
+        res.send_success("申请重置密码", result)
     })
 }
 
 exports.reset_password_page = function(req, res, next) {
-    var email = req.params.email,
-        token = req.params.token;
+    res.render("backend/reset-password")
+}
 
-    res.render("/statics/backend/reset-password")
+exports.reset_password_action = function(req, res, next) {
+    var id = req.params.id,
+        token = req.body.token,
+        password = req.body.password,
+        password_verify = req.body.password_verify;
+
+    async.waterfall([
+
+        // validate
+        function(callback) {
+            if (password !== password_verify) {
+                return callback("两次输入的密码不一致")
+            }
+
+            callback(null)
+        },
+
+        // call model static method
+        function(callback) {
+            model_admin.reset_password(id, token, password, function(err) {
+                if (err) {
+                    return callback(err)
+                }
+
+                callback(null)
+            })
+        } 
+    ],
+    function(err) {
+        if (err) {
+            res.send_failure(err)
+        } else {
+            res.send_success()
+        }
+    })
 }
 
 

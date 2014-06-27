@@ -2,7 +2,6 @@ var async       = require("async"),
     model_admin = require("../../models/admins");
 
 exports.create = function(req, res, next) {
-    console.log(req.body)
     async.waterfall([
 
         // validator 
@@ -20,12 +19,7 @@ exports.create = function(req, res, next) {
 
         // get params and save to db
         function(callback) {
-            var doc = new model_admin({
-                email : req.body.email,
-                password : req.body.password
-            })
-
-            doc.save(function(err) {
+            model_admin.create_admin(req.body.email, req.body.password, function(err) {
                 callback(err)
             })
         }
