@@ -103,6 +103,13 @@ exports.reset_password_action = function(req, res, next) {
     })
 }
 
+exports.logout = function(req, res, next) {
+    
+    // passport implement logout()
+    req.logout()
+    res.redirect("/backend/login")
+}
+
 
 
 

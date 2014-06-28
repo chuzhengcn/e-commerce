@@ -45,6 +45,7 @@ app.set("title", pkg.name)
 app.set("port", env.port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set("session_backend_cookie_name", "fy.ecommerce.backend")
 
 // middleware ----------------------------------------------------------------------------------------
 app.use(morgan("dev"));
@@ -59,7 +60,11 @@ app.use(bodyParser.urlencoded({extended : true}));
 // parse application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(session({secret: env.cryptoKey, store: new mongoStore({ url: env.mongo_url })}));
+app.use(session({
+    name: app.get("session_backend_cookie_name"),
+    secret: env.cryptoKey, 
+    store: new mongoStore({ url: env.mongo_url })
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(send_result);

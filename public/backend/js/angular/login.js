@@ -28,7 +28,7 @@
                 if (data.code === 0) {
                     App.alert_message("success", "登录成功")
                     setTimeout(function() {
-                        // location.href = '/backend/admin'
+                        location.href = '/backend/admin/profile'
                     }, 2000)
 
                     return

@@ -6,9 +6,10 @@ exports = module.exports = function(req, res, next) {
         default_success_code = 0,
         default_failure_msg = "操作失败",
         default_success_msg = "操作成功",
-        default_data        = "[]";
+        default_data        = "[]",
+        is_json_req         = req.accepts("json") && req.is("json");
         
-    if (req.accepts("json")) {
+    if (is_json_req) {
         res.send_success = function(msg, data) {
             res.send({
                 code : default_success_code, 
@@ -39,7 +40,7 @@ exports = module.exports = function(req, res, next) {
             })
         }
 
-        res.send_failure = function(msg, code, return_url) {
+        res.send_failure = function(err, msg, return_url, code) {
             var message = helper.get_error_message(err);
 
             if (msg) {
@@ -69,7 +70,7 @@ function get_template(req, template_name) {
         }
     };
 
-    if (req.path.indexOf("backend") > -1) {
+    if (req.originalUrl.indexOf("backend") > -1) {
         return page.backend[template_name]
     } else {
         return page.frontend[template_name]

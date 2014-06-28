@@ -33,3 +33,20 @@ exports.create = function(req, res, next) {
     })
 }
 
+exports.profile = function(req, res) {
+    console.log(req.user)
+    res.render("backend/profile/index")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

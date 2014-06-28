@@ -1,0 +1,18 @@
+doctype html
+html
+    head
+        include ./includes/head
+    body
+        include ./includes/alert
+        .container
+            .text-center
+                h1 #{msg}
+                p 页面即将跳转
+                    a(href="#{return_url}") 点击这里手动跳转
+        include ./includes/script
+        script.
+            $(function() {
+                setTimeout(function() {
+                    location.href = "#{return_url}"
+                }, 3000)
+            })
